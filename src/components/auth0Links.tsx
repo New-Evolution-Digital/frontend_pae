@@ -1,15 +1,19 @@
 import React from 'react'
-/* eslint-disable */
-const Auth0Links: React.FC = () => {
-    /* eslint-disable */
-    return (
-        <div>
-            <a href="/api/auth/login">Login</a>
-            <a href="/api/auth/logout">Logout</a>
-            <a href="/api/auth/me">User Profile</a>
+import Link from 'next/link'
 
+const Auth0Links: React.FC = () => {
+    return (
+        <div className='flex justify-between w-1/4'>
+					<Link href="/api/auth/login/" passHref>
+            <a>Login</a>
+					</Link>
+					<Link href="/api/auth/logout/" passHref>
+            <a>Logout</a>
+					</Link>
+					<Link href="/api/auth/me/" passHref>
+            <a>Profile</a>
+					</Link>
         </div>
-    )/* eslint-disable */
+    )
 }
-/* eslint-disable */
 export default Auth0Links
