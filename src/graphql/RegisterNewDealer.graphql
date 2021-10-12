@@ -1,0 +1,6 @@
+mutation RegisterNewDealer($info: DealerInput!) {
+  registerNewDealer(info: $info) {
+    dealerName
+    id
+  }
+}

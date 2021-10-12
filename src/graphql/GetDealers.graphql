@@ -1,0 +1,6 @@
+query GetDealers {
+  getDealers {
+    dealerName
+    id
+  }
+}
