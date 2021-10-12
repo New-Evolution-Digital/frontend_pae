@@ -1,30 +1,22 @@
-import { useEffect } from 'react';
-
-import { useGetDealersQuery } from '../generated/types';
-import { Meta } from '../layout/Meta';
-import { Main } from '../templates/Main';
+import Auth0Links from '../components/auth0Links'
+import { Meta } from '../layout/Meta'
+import { Main } from '../templates/Main'
 
 const Index = () => {
-  const { data, error, loading } = useGetDealersQuery();
+    // const router = useRouter()
 
-  useEffect(() => {
-    console.log(data, error, loading);
-  }, [data, error, loading]);
+    return (
+        <Main
+            meta={
+                <Meta
+                    title="Next.js Boilerplate Presentation"
+                    description="Next js Boilerplate is the perfect starter code for your project. Build your React application with the Next.js framework."
+                />
+            }
+        >
+            <Auth0Links />
+        </Main>
+    )
+}
 
-  return (
-    <Main
-      meta={
-        <Meta
-          title="Project Auto Evolution"
-          description="The new and revolutionary auto shopping experience."
-        />
-      }
-    >
-      {data?.getDealers.map(({ dealerName }, i) => (
-        <p key={i + 1}>{dealerName}</p>
-      ))}
-    </Main>
-  );
-};
-
-export default Index;
+export default Index
