@@ -1,6 +1,6 @@
 import React from 'react'
 
-import DealerProfileForm from '../components/dealerProfileForm'
+import DealerProfileForm from '../../../components/dealerProfileForm'
 // TODO: Add Apollo client to obtain the dealer information from the server. For now for demonstration, and testing purposes it is hardcoded.
 // TODO: This needs to be on a private route authenticated, and likely use some of the information from the Auth0 me page (the object sent back from auth0)
 
