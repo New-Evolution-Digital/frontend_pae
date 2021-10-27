@@ -21,150 +21,145 @@ export type Scalars = {
     Float: number
 }
 
-export type Dealer = {
-    __typename?: 'Dealer'
-    dealerName: Scalars['String']
+export type DealershipAuth = {
+    __typename?: 'DealershipAuth'
+    createdAt: Scalars['String']
+    email: Scalars['String']
+    first_name?: Maybe<Scalars['String']>
     id: Scalars['ID']
+    last_name?: Maybe<Scalars['String']>
+    middle_name?: Maybe<Scalars['String']>
+    updatedAt: Scalars['String']
+    username: Scalars['String']
 }
 
-export type DealerInput = {
-    dealerName: Scalars['String']
+export type FieldError = {
+    __typename?: 'FieldError'
+    field: Scalars['String']
+    message: Scalars['String']
 }
 
 export type Mutation = {
     __typename?: 'Mutation'
-    registerNewDealer: Dealer
+    login: UserResponse
+    registerDealerAdmin: UserResponse
 }
 
-export type MutationRegisterNewDealerArgs = {
-    info: DealerInput
+export type MutationLoginArgs = {
+    email: Scalars['String']
+    password: Scalars['String']
+}
+
+export type MutationRegisterDealerAdminArgs = {
+    email: Scalars['String']
+    password: Scalars['String']
+    username: Scalars['String']
 }
 
 export type Query = {
     __typename?: 'Query'
-    getDealers: Array<Dealer>
+    getAllUsers?: Maybe<Array<DealershipAuth>>
+    me?: Maybe<DealershipAuth>
 }
 
-export type GetDealersQueryVariables = Exact<{ [key: string]: never }>
-
-export type GetDealersQuery = {
-    __typename?: 'Query'
-    getDealers: Array<{ __typename?: 'Dealer'; dealerName: string; id: string }>
+export type UserResponse = {
+    __typename?: 'UserResponse'
+    errors?: Maybe<Array<FieldError>>
+    user?: Maybe<DealershipAuth>
 }
 
-export type RegisterNewDealerMutationVariables = Exact<{
-    info: DealerInput
+export type LoginMutationVariables = Exact<{
+    email: Scalars['String']
+    password: Scalars['String']
 }>
 
-export type RegisterNewDealerMutation = {
+export type LoginMutation = {
     __typename?: 'Mutation'
-    registerNewDealer: { __typename?: 'Dealer'; dealerName: string; id: string }
+    login: {
+        __typename?: 'UserResponse'
+        errors?:
+            | Array<{
+                  __typename?: 'FieldError'
+                  field: string
+                  message: string
+              }>
+            | null
+            | undefined
+        user?:
+            | {
+                  __typename?: 'DealershipAuth'
+                  id: string
+                  first_name?: string | null | undefined
+                  middle_name?: string | null | undefined
+                  last_name?: string | null | undefined
+                  email: string
+                  username: string
+                  createdAt: string
+                  updatedAt: string
+              }
+            | null
+            | undefined
+    }
 }
 
-export const GetDealersDocument = gql`
-    query GetDealers {
-        getDealers {
-            dealerName
-            id
+export const LoginDocument = gql`
+    mutation Login($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+            errors {
+                field
+                message
+            }
+            user {
+                id
+                first_name
+                middle_name
+                last_name
+                email
+                username
+                createdAt
+                updatedAt
+            }
         }
     }
 `
-
-/**
- * __useGetDealersQuery__
- *
- * To run a query within a React component, call `useGetDealersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetDealersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetDealersQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetDealersQuery(
-    baseOptions?: Apollo.QueryHookOptions<
-        GetDealersQuery,
-        GetDealersQueryVariables
-    >
-) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useQuery<GetDealersQuery, GetDealersQueryVariables>(
-        GetDealersDocument,
-        options
-    )
-}
-export function useGetDealersLazyQuery(
-    baseOptions?: Apollo.LazyQueryHookOptions<
-        GetDealersQuery,
-        GetDealersQueryVariables
-    >
-) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useLazyQuery<GetDealersQuery, GetDealersQueryVariables>(
-        GetDealersDocument,
-        options
-    )
-}
-export type GetDealersQueryHookResult = ReturnType<typeof useGetDealersQuery>
-export type GetDealersLazyQueryHookResult = ReturnType<
-    typeof useGetDealersLazyQuery
->
-export type GetDealersQueryResult = Apollo.QueryResult<
-    GetDealersQuery,
-    GetDealersQueryVariables
->
-export const RegisterNewDealerDocument = gql`
-    mutation RegisterNewDealer($info: DealerInput!) {
-        registerNewDealer(info: $info) {
-            dealerName
-            id
-        }
-    }
-`
-export type RegisterNewDealerMutationFn = Apollo.MutationFunction<
-    RegisterNewDealerMutation,
-    RegisterNewDealerMutationVariables
+export type LoginMutationFn = Apollo.MutationFunction<
+    LoginMutation,
+    LoginMutationVariables
 >
 
 /**
- * __useRegisterNewDealerMutation__
+ * __useLoginMutation__
  *
- * To run a mutation, you first call `useRegisterNewDealerMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRegisterNewDealerMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [registerNewDealerMutation, { data, loading, error }] = useRegisterNewDealerMutation({
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
  *   variables: {
- *      info: // value for 'info'
+ *      email: // value for 'email'
+ *      password: // value for 'password'
  *   },
  * });
  */
-export function useRegisterNewDealerMutation(
+export function useLoginMutation(
     baseOptions?: Apollo.MutationHookOptions<
-        RegisterNewDealerMutation,
-        RegisterNewDealerMutationVariables
+        LoginMutation,
+        LoginMutationVariables
     >
 ) {
     const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<
-        RegisterNewDealerMutation,
-        RegisterNewDealerMutationVariables
-    >(RegisterNewDealerDocument, options)
+    return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
+        LoginDocument,
+        options
+    )
 }
-export type RegisterNewDealerMutationHookResult = ReturnType<
-    typeof useRegisterNewDealerMutation
->
-export type RegisterNewDealerMutationResult =
-    Apollo.MutationResult<RegisterNewDealerMutation>
-export type RegisterNewDealerMutationOptions = Apollo.BaseMutationOptions<
-    RegisterNewDealerMutation,
-    RegisterNewDealerMutationVariables
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+    LoginMutation,
+    LoginMutationVariables
 >
