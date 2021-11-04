@@ -6,7 +6,7 @@ import { useLoginMutation } from '../generated/types'
 
 const Login = () => {
     const [loginData, setData] = useState({ email: '', password: '' })
-    const [login, { loading }] = useLoginMutation()
+    const [squirl, { loading }] = useLoginMutation()
 
     const handleUpdate = (e: ChangeEvent<HTMLInputElement>) => {
         setData({ ...loginData, [e.target.name]: e.target.value })
@@ -14,7 +14,7 @@ const Login = () => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
-        login({ variables: loginData }).then((res) => {
+        squirl({ variables: loginData }).then((res) => {
             if (res.data) {
                 const { errors } = res.data.login
                 if (errors) {
