@@ -6,13 +6,13 @@ import { useApollo } from '../apollo-client'
 import '../styles/main.css'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-    const client = useApollo(pageProps)
+  const client = useApollo(pageProps)
 
-    return (
-        <ApolloProvider client={client}>
-            <Component {...pageProps} />
-        </ApolloProvider>
-    )
+  return (
+    <ApolloProvider client={client}>
+      <Component {...pageProps} />
+    </ApolloProvider>
+  )
 }
 
 export default MyApp
