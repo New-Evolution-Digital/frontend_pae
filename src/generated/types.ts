@@ -33,6 +33,18 @@ export type DealershipAuth = {
   username: Scalars['String']
 }
 
+export type DealershipOrg = {
+  __typename?: 'DealershipOrg'
+  city?: Maybe<Scalars['String']>
+  createdAt: Scalars['String']
+  id: Scalars['Float']
+  name?: Maybe<Scalars['String']>
+  state?: Maybe<Scalars['String']>
+  street_address?: Maybe<Scalars['String']>
+  updatedAt: Scalars['String']
+  zip?: Maybe<Scalars['Float']>
+}
+
 export type FieldError = {
   __typename?: 'FieldError'
   field: Scalars['String']
@@ -41,8 +53,13 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation'
+  createOrg: DealershipOrg
   login: UserResponse
   registerDealerAdmin: UserResponse
+}
+
+export type MutationCreateOrgArgs = {
+  rootId: Scalars['Float']
 }
 
 export type MutationLoginArgs = {
@@ -58,6 +75,7 @@ export type MutationRegisterDealerAdminArgs = {
 
 export type Query = {
   __typename?: 'Query'
+  getAllOrgs: Array<DealershipOrg>
   getAllUsers?: Maybe<Array<DealershipAuth>>
   me?: Maybe<DealershipAuth>
 }
@@ -96,6 +114,15 @@ export type LoginMutation = {
       | null
       | undefined
   }
+}
+
+export type InitOrgMutationVariables = Exact<{
+  rootId: Scalars['Float']
+}>
+
+export type InitOrgMutation = {
+  __typename?: 'Mutation'
+  createOrg: { __typename?: 'DealershipOrg'; id: number }
 }
 
 export type RegisterDealerAdminMutationVariables = Exact<{
@@ -203,6 +230,53 @@ export type LoginMutationResult = Apollo.MutationResult<LoginMutation>
 export type LoginMutationOptions = Apollo.BaseMutationOptions<
   LoginMutation,
   LoginMutationVariables
+>
+export const InitOrgDocument = gql`
+  mutation InitOrg($rootId: Float!) {
+    createOrg(rootId: $rootId) {
+      id
+    }
+  }
+`
+export type InitOrgMutationFn = Apollo.MutationFunction<
+  InitOrgMutation,
+  InitOrgMutationVariables
+>
+
+/**
+ * __useInitOrgMutation__
+ *
+ * To run a mutation, you first call `useInitOrgMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInitOrgMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [initOrgMutation, { data, loading, error }] = useInitOrgMutation({
+ *   variables: {
+ *      rootId: // value for 'rootId'
+ *   },
+ * });
+ */
+export function useInitOrgMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    InitOrgMutation,
+    InitOrgMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<InitOrgMutation, InitOrgMutationVariables>(
+    InitOrgDocument,
+    options
+  )
+}
+export type InitOrgMutationHookResult = ReturnType<typeof useInitOrgMutation>
+export type InitOrgMutationResult = Apollo.MutationResult<InitOrgMutation>
+export type InitOrgMutationOptions = Apollo.BaseMutationOptions<
+  InitOrgMutation,
+  InitOrgMutationVariables
 >
 export const RegisterDealerAdminDocument = gql`
   mutation registerDealerAdmin(

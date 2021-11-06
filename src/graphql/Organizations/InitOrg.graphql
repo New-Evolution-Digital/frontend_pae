@@ -1,0 +1,5 @@
+mutation InitOrg($rootId: Float!) {
+  createOrg(rootId: $rootId) {
+    id
+  }
+}

@@ -1,10 +1,12 @@
 import React from 'react'
 
+import DashboardShell from '../../../templates/DashboardShell'
+
 const SettingsView = () => {
   return (
-    <div className="">
-      <h1>Settings</h1>
-    </div>
+    <DashboardShell header="Settings">
+      <div></div>
+    </DashboardShell>
   )
 }
 
