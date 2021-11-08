@@ -7,7 +7,7 @@ const Join: React.FC = () => {
     <div className="min-h-full flex">
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
-          <div>
+          <div className="mb-6">
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
               Sign Up Now
             </h2>

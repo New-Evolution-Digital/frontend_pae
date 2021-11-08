@@ -1,15 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Formik, FormikHelpers } from 'formik'
 import router from 'next/router'
 import * as Yup from 'yup'
 
-import { GetMeDocument, GetMeQuery, useLoginMutation } from '../generated/types'
+import {
+  GetMeDocument,
+  GetMeQuery,
+  useGetOrgByAdminIdLazyQuery,
+  useLoginMutation
+} from '../generated/types'
+import { useAppDispatch } from '../redux'
+import { setOrgState } from '../redux/reducers/org.reducer'
+import { setUser } from '../redux/reducers/user.reducer'
 import { toErrorMap } from '../utils/toErrorMap'
 import Input from './common/Input'
 
 const LoginForm = () => {
+  const [orgSearch, setOrgSearch] = useState(0)
   const [login] = useLoginMutation()
+  const dispatch = useAppDispatch()
+  const [getOrg, { called, loading }] = useGetOrgByAdminIdLazyQuery({
+    variables: { rootId: orgSearch },
+    onCompleted: async ({ getOrgByAdminID }) => {
+      if (getOrgByAdminID) {
+        dispatch(setOrgState(getOrgByAdminID))
+      }
+    }
+  })
+
+  useEffect(() => {
+    if (called && !loading) {
+      if (typeof router.query.next === 'string') {
+        router.push(router.query.next)
+      } else {
+        router.push('/dashboard')
+      }
+    }
+  }, [called, loading])
 
   const schema = Yup.object({
     email: Yup.string()
@@ -45,14 +73,13 @@ const LoginForm = () => {
     })
 
     const errors = response.data?.login.errors
+    const user = response.data?.login.user
     if (errors) {
       setErrors(toErrorMap(errors))
-    } else if (response.data?.login.user) {
-      if (typeof router.query.next === 'string') {
-        router.push(router.query.next)
-      } else {
-        router.push('/')
-      }
+    } else if (user) {
+      await dispatch(setUser(user))
+      setOrgSearch(parseInt(user.id, 10))
+      getOrg()
     }
   }
 

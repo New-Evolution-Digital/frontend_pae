@@ -2,13 +2,16 @@ import React from 'react'
 
 import { Formik, FormikHelpers } from 'formik'
 import router from 'next/router'
+import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
 import {
   GetMeDocument,
   GetMeQuery,
+  useInitOrgMutation,
   useRegisterDealerAdminMutation
 } from '../generated/types'
+import { setUser } from '../redux/reducers/user.reducer'
 import { toErrorMap } from '../utils/toErrorMap'
 import Input from './common/Input'
 
@@ -21,6 +24,8 @@ type RegisterInputType = {
 
 const RegisterForm: React.FC = () => {
   const [register] = useRegisterDealerAdminMutation()
+  const [initOrg] = useInitOrgMutation()
+  const dispatch = useDispatch()
 
   const schema = Yup.object({
     email: Yup.string()
@@ -61,13 +66,20 @@ const RegisterForm: React.FC = () => {
       })
 
       const errors = response.data?.registerDealerAdmin.errors
+      const user = response.data?.registerDealerAdmin.user
       if (errors) {
         setErrors(toErrorMap(errors))
-      } else if (response.data?.registerDealerAdmin.user) {
+      } else if (user) {
+        await dispatch(setUser(user))
+        await initOrg({
+          variables: {
+            rootId: parseInt(user.id, 10)
+          }
+        })
         if (typeof router.query.next === 'string') {
           router.push(router.query.next)
         } else {
-          router.push('/')
+          router.push('/dashboard')
         }
       }
     } else {
@@ -194,7 +206,7 @@ const RegisterForm: React.FC = () => {
               disabled={isSubmitting || !isValid}
               className="disabled:bg-blue-400 w-full flex justify-center py-2 px-4 border border-transparent rounded-sm shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Login
+              Join Now
             </button>
           </div>
         </form>

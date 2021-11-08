@@ -1,0 +1,13 @@
+mutation UpdateOrganization($orgId: Float!, $updatedInfo: DealershipOrgInputs!) {
+  updateOrg(orgId: $orgId, updatedInfo: $updatedInfo) {
+    id
+    name
+    street_address
+    city
+    state
+    zip
+    createdAt
+    updatedAt
+		default_dealer_number
+  }
+}
