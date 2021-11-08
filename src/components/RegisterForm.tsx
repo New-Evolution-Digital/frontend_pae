@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Formik, FormikHelpers } from 'formik'
 import router from 'next/router'
+import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 
 import {
@@ -10,6 +11,7 @@ import {
   useInitOrgMutation,
   useRegisterDealerAdminMutation
 } from '../generated/types'
+import { setUser } from '../redux/reducers/user.reducer'
 import { toErrorMap } from '../utils/toErrorMap'
 import Input from './common/Input'
 
@@ -23,6 +25,7 @@ type RegisterInputType = {
 const RegisterForm: React.FC = () => {
   const [register] = useRegisterDealerAdminMutation()
   const [initOrg] = useInitOrgMutation()
+  const dispatch = useDispatch()
 
   const schema = Yup.object({
     email: Yup.string()
@@ -63,12 +66,14 @@ const RegisterForm: React.FC = () => {
       })
 
       const errors = response.data?.registerDealerAdmin.errors
+      const user = response.data?.registerDealerAdmin.user
       if (errors) {
         setErrors(toErrorMap(errors))
-      } else if (response.data?.registerDealerAdmin.user) {
+      } else if (user) {
+        await dispatch(setUser(user))
         await initOrg({
           variables: {
-            rootId: parseInt(response.data.registerDealerAdmin.user.id, 10)
+            rootId: parseInt(user.id, 10)
           }
         })
         if (typeof router.query.next === 'string') {
@@ -110,7 +115,6 @@ const RegisterForm: React.FC = () => {
         isValid
       }) => (
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {console.log(errors)}
           <Input
             label={{
               labelText: 'Email',

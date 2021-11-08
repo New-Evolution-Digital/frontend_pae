@@ -3,6 +3,10 @@ import React, { Fragment } from 'react'
 import { Transition, Dialog } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
+
+import { RootState } from '../../redux'
 
 const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(' ')
@@ -17,6 +21,17 @@ const SidebarNav: React.FC<ISideBarState> = ({
   setSidebarOpen,
   sidebarOpen
 }) => {
+  const userData = useSelector(({ user }: RootState) => user.user)
+  const router = useRouter()
+
+  const isCurrentPath = (path: string) => {
+    return router.pathname === path
+  }
+
+  const handleLogout = () => {
+    router.replace('/')
+  }
+
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -68,8 +83,36 @@ const SidebarNav: React.FC<ISideBarState> = ({
               </Transition.Child>
               <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
                 <div className="flex-shrink-0 flex items-center px-4">
-                  <h1>AUTOMODIV</h1>
+                  <span className="text-gray-200 text-xl font-medium">
+                    AUTOMODIV
+                  </span>
                 </div>
+                <nav className="mt-5 flex-1 px-2 space-y-1">
+                  <Link href="/dashboard" passHref>
+                    <a
+                      className={classNames(
+                        isCurrentPath('/dashboard')
+                          ? 'bg-gray-900 text-white'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                      )}
+                    >
+                      Home
+                    </a>
+                  </Link>
+                  <Link href="/dashboard/settings" passHref>
+                    <a
+                      className={classNames(
+                        isCurrentPath('/dashboard/settings')
+                          ? 'bg-gray-900 text-white'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                      )}
+                    >
+                      Settings
+                    </a>
+                  </Link>
+                </nav>
               </div>
             </div>
           </Transition.Child>
@@ -86,10 +129,22 @@ const SidebarNav: React.FC<ISideBarState> = ({
               </span>
             </div>
             <nav className="mt-5 flex-1 px-2 space-y-1">
+              <Link href="/dashboard" passHref>
+                <a
+                  className={classNames(
+                    isCurrentPath('/dashboard')
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                  )}
+                >
+                  Home
+                </a>
+              </Link>
               <Link href="/dashboard/settings" passHref>
                 <a
                   className={classNames(
-                    false
+                    isCurrentPath('/dashboard/settings')
                       ? 'bg-gray-900 text-white'
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
@@ -106,9 +161,12 @@ const SidebarNav: React.FC<ISideBarState> = ({
                 <span className="inline-block h-9 w-9 rounded-full bg-gray-500" />
                 <div className="ml-3">
                   <p className="text-sm font-medium text-white">
-                    Jesse Medrano
+                    {!!userData && userData.username}
                   </p>
-                  <p className="text-xs font-medium text-gray-300 group-hover:text-gray-200 cursor-pointer">
+                  <p
+                    className="text-xs font-medium text-gray-300 group-hover:text-gray-200 cursor-pointer"
+                    onClick={handleLogout}
+                  >
                     Log Out
                   </p>
                 </div>
