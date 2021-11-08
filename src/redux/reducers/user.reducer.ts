@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { DealershipAuth } from '../../generated/types'
 
-const initialState: UserState = { user: null }
+const initialState: UserState = { user: undefined }
 
 export const userSlice = createSlice({
   name: 'user',

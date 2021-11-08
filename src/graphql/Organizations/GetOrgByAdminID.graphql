@@ -1,0 +1,12 @@
+query GetOrgByAdminID($rootId: Int!) {
+  getOrgByAdminID(rootId: $rootId) {
+    id
+    name
+    street_address
+    city
+    state
+    zip
+    createdAt
+    updatedAt
+  }
+}

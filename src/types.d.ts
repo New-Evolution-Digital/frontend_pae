@@ -1,8 +1,12 @@
-import { DealershipAuth } from './generated/types'
+import { DealershipAuth, DealershipOrg } from './generated/types'
 
 declare global {
   interface UserState {
-    user: null | DealershipAuth
+    user?: DealershipAuth
+  }
+
+  interface OrgState {
+    org?: DealershipOrg
   }
 }
 export {}

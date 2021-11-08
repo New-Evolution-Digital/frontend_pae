@@ -1,3 +1,4 @@
-import * as user from './user.reducer'
+import org from './org.reducer'
+import user from './user.reducer'
 
-export { user }
+export { user, org }
