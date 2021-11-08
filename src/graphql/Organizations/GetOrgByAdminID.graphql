@@ -8,5 +8,6 @@ query GetOrgByAdminID($rootId: Int!) {
     zip
     createdAt
     updatedAt
+		default_dealer_number
   }
 }

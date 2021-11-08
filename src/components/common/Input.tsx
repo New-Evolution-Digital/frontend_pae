@@ -25,7 +25,7 @@ const LabeledInput: React.FC<InputInterface> = ({
   delete inputProps.className
 
   return (
-    <div>
+    <>
       {!!label && (
         <label
           {...label.props}
@@ -50,7 +50,7 @@ const LabeledInput: React.FC<InputInterface> = ({
           }
         />
       </div>
-    </div>
+    </>
   )
 }
 

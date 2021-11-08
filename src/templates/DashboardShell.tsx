@@ -42,7 +42,9 @@ const DashboardShell: React.FC<IDashboardShell> = ({ children, header }) => {
           <ToggleSidebar setSidebarOpen={setSidebarOpen} />
           <main className="min-h-screen flex-1 py-6 flex flex-col items-stretch justify-items-stretch">
             {!!header && HeaderSwitcher()}
-            {children}
+            <div className="flex-shrink flex-grow flex-auto flex max-h-full max-w-7xl w-full mx-auto px-4 py-4 sm:px-6 lg:px-8 md:py-8">
+              {children}
+            </div>
           </main>
         </div>
       </div>

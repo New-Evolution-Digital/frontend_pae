@@ -8,5 +8,6 @@ mutation UpdateOrganization($orgId: Float!, $updatedInfo: DealershipOrgInputs!) 
     zip
     createdAt
     updatedAt
+		default_dealer_number
   }
 }

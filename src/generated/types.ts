@@ -37,16 +37,18 @@ export type DealershipOrg = {
   __typename?: 'DealershipOrg'
   city?: Maybe<Scalars['String']>
   createdAt: Scalars['String']
-  id: Scalars['Float']
+  default_dealer_number?: Maybe<Scalars['Int']>
+  id: Scalars['Int']
   name?: Maybe<Scalars['String']>
   state?: Maybe<Scalars['String']>
   street_address?: Maybe<Scalars['String']>
   updatedAt: Scalars['String']
-  zip?: Maybe<Scalars['Float']>
+  zip?: Maybe<Scalars['Int']>
 }
 
 export type DealershipOrgInputs = {
   city?: Maybe<Scalars['String']>
+  default_dealer_number?: Maybe<Scalars['Int']>
   name?: Maybe<Scalars['String']>
   state?: Maybe<Scalars['String']>
   street_address?: Maybe<Scalars['String']>
@@ -152,6 +154,7 @@ export type GetOrgByAdminIdQuery = {
         zip?: number | null | undefined
         createdAt: string
         updatedAt: string
+        default_dealer_number?: number | null | undefined
       }
     | null
     | undefined
@@ -183,6 +186,7 @@ export type UpdateOrganizationMutation = {
     zip?: number | null | undefined
     createdAt: string
     updatedAt: string
+    default_dealer_number?: number | null | undefined
   }
 }
 
@@ -303,6 +307,7 @@ export const GetOrgByAdminIdDocument = gql`
       zip
       createdAt
       updatedAt
+      default_dealer_number
     }
   }
 `
@@ -418,6 +423,7 @@ export const UpdateOrganizationDocument = gql`
       zip
       createdAt
       updatedAt
+      default_dealer_number
     }
   }
 `

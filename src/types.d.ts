@@ -6,7 +6,15 @@ declare global {
   }
 
   interface OrgState {
-    org?: DealershipOrg
+    org?: DealershipOrg & {
+      [key: string]:
+        | 'DealershipOrg'
+        | Maybe<string>
+        | Maybe<number>
+        | Scalars['String']
+        | Scalars['Float']
+        | undefined
+    }
   }
 }
 export {}
